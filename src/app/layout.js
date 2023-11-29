@@ -1,10 +1,8 @@
 import Head from 'next/head'
 import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
-import LayoutWrapper from '../../components/layout/LayoutWrapper'
-import Nav from '../../components/layout/Nav'
 import './globals.css'
 import { Inter } from 'next/font/google'
+import LayoutWrapper from '../../components/layout/LayoutWrapper'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,10 +20,12 @@ export default function RootLayout({ children }) {
       <body>
 
         <div >
-          <LayoutWrapper>{children}</LayoutWrapper>
-         
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
+
         </div>
-       
+
 
         {/* <Footer
         facebook_link={''}
