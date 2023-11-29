@@ -21,6 +21,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import StarBorder from '@mui/icons-material/StarBorder';
 import { Collapse, Grid } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import GroupIcon from '@mui/icons-material/Group';
 import Link from 'next/link';
 
 import { AiOutlineLogin } from 'react-icons/ai';
@@ -134,9 +136,9 @@ export default function LayoutWrapper({ children }) {
                         <MenuIcon />
                     </IconButton>
                     <Grid display={'grid'} gridTemplateColumns={'1fr 1fr 1fr'} gap={4}>
-                        <Link href={``}>Accounts</Link>
-                        <Link href={``} >Logout</Link>
-                        <Link href="" >Modules</Link>
+                        <Link href='/'>Accounts</Link>
+                        <Link href='/' >Logout</Link>
+                        <Link href='/' >Modules</Link>
                     </Grid>
 
                 </Toolbar>
@@ -160,16 +162,18 @@ export default function LayoutWrapper({ children }) {
                         </Grid>
                     </Grid>
                         :
-                        <Grid sx={{ backgroundColor: '#33ab9f', color: 'white',
-                         height:'1fr', padding: 1, }}>
+                        <Grid sx={{
+                            backgroundColor: '  ', color: 'white',
+                            height: '1fr', padding: 1,
+                        }}>
                             <img src={'/omni.jpeg'}
-                                
+
                                 alt='Student photo'
                                 loading='lazy'
                                 style={{
                                     borderRadius: '50%',
-                                    maxHeight:'100%',
-                                    border:'1px solid',
+                                    maxHeight: '100%',
+                                    border: '1px solid',
                                 }}
                             />
                         </Grid>
@@ -178,7 +182,7 @@ export default function LayoutWrapper({ children }) {
 
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred'].map((text, index) => (
+                    {/* {['Inbox', 'Starred'].map((text, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
@@ -199,16 +203,16 @@ export default function LayoutWrapper({ children }) {
                                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         </ListItem>
-                    ))}
+                    ))} */}
                     <ListItem disablePadding sx={{ display: 'block' }}>
-                        <MenuWithSubmenu />
+                        <MenuWithSubmenu
+                            menu={{ title: 'Settings', icon: <SettingsIcon /> }}
+                            subMenu={[
+                                { title: 'Group Entry', icon: <GroupIcon />,link:'/group-entry' },
+                            ]}
+                        />
                     </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }}>
-                        <MenuWithSubmenu />
-                    </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }}>
-                        <MenuWithSubmenu />
-                    </ListItem>
+
 
                 </List>
 
@@ -223,38 +227,35 @@ export default function LayoutWrapper({ children }) {
 
 
 
-const MenuWithSubmenu = () => {
+const MenuWithSubmenu = ({ menu, subMenu }) => {
     const [open, setOpen] = useState(false);
     return (
         <Fragment>
             <ListItemButton onClick={() => setOpen(!open)}>
                 <ListItemIcon>
-                    <InboxIcon />
+                    {menu?.icon}
                 </ListItemIcon>
-                <ListItemText primary="Inbox" />
+                <ListItemText primary={`${menu?.title}`} />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
 
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 2 }}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 2 }}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 2 }}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                    </ListItemButton>
+                    {
+                        subMenu.map(i => (
+                            <Link href={i?.link}>
+                            <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                    {i?.icon}
+                                </ListItemIcon>
+                                <ListItemText primary={`${i?.title}`} />
+                            </ListItemButton>
+                            </Link>
+                        )
+                        )
+                    }
+
+
                 </List>
             </Collapse>
         </Fragment>

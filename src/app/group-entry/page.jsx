@@ -1,15 +1,14 @@
 
 'use client';
 import { Box, Card, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, ListItemIcon, Stack, TextField, ThemeProvider, Typography, createTheme, styled } from '@mui/material';
-import FAQSection from '../../components/FAQSection';
-import LandingPageButton from '../../components/LandingPageButton';
-import { useEffect, useState } from 'react';
-import { AutoCompleteWrapper, TextAreaWrapper, TextFieldWrapper } from '../../components/AutoCompleteWrapper';
+import { useContext, useEffect, useState } from 'react';
+import { AutoCompleteWrapper, CustomizedSnackbars, TextAreaWrapper, TextFieldWrapper } from '../../../components/ReuseableItems';
 import CloseIcon from '@mui/icons-material/Close';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import { GroupListContext } from '../../../contexts/UtilsContextUse';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -20,48 +19,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 export default function Home() {
-  const [groupList, setGroupList] = useState([
-    {
-      label: 'a', value: 'a',
-      sub: [
-        {
-          label: 'sa1', value: 'sa1',
-          subsub: [
-            { label: 'sa1 subA1', value: 'sa1 subA1', description: 'rgerthbetrh' },
-            { label: 'sa1 subA2', value: 'sa1 subA2', description: 'rgerthbetrh' }
-          ]
-        },
-        {
-          label: 'sa2', value: 'sa2',
-          subsub: [
-            { label: 'sa2 subA1', value: 'sa2 subA1', description: 'rgerthbetrh' },
-            { label: 'sa2 subA2', value: 'sa2 subA2', description: 'rgerthbetrh' }
-          ]
-        },
-      ]
-    },
-    {
-      label: 'b', value: 'b',
-      sub: [
-        {
-          label: 'sb1', value: 'sb1',
-          subsub: [
-            { label: 'subB1', value: 'subB1', description: 'rgerthbetrh' },
-            { label: 'subB2', value: 'subB2', description: 'aaaaaaaaa' }
-          ]
-        },
-        {
-          label: 'sb2', value: 'sb2',
-          subsub: [
-            { label: 'sb2 subB1', value: 'sb2 subB1', description: 'efgwrg' },
-            { label: 'sb2 subB2', value: 'sb2 subB2', description: 'egergertgetbnh' }
-          ]
-        },
-      ]
-    },
-
-  ]);
-
+  const [groupList, setGroupList] = useContext(GroupListContext);
   const [open, setOpen] = useState(null)
 
   const [subGroup, setSubGroup] = useState([])
@@ -70,6 +28,8 @@ export default function Home() {
   const [selectedGroup, setSelectedGroup] = useState(null)
   const [selectedSubGroup, setSelectedSubGroup] = useState(null)
   const [selectedSubSubGroup, setSelectedSubSubGroup] = useState(null)
+
+  const [notificationOpen, setNotificationOpen] = useState(null);
 
   const updatingGrouplist = (e) => {
     return new Promise((resole, reject) => {
@@ -107,9 +67,13 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await updatingGrouplist(e)
-    handleClose()
-
+    try{
+      await updatingGrouplist(e)
+      setNotificationOpen({massage:`${open} created successfully !!`,varient:'success'});
+      handleClose()
+    }catch(err){
+      setNotificationOpen('error');
+    }
   }
 
   const handleClose = () => setOpen(false)
@@ -119,6 +83,7 @@ export default function Home() {
     setSelectedSubGroup(null)
     setSelectedSubSubGroup(null)
   }
+
   return (
     <>
 
@@ -281,7 +246,7 @@ export default function Home() {
         fullWidth
       >
         <DialogTitle sx={{ m: 0, p: 2 }} >
-          Modal title
+          <Typography variant="body1"> Add New Account Group</Typography>
         </DialogTitle>
         <IconButton
           onClick={handleClose}
@@ -304,7 +269,7 @@ export default function Home() {
               <Grid container gap={2}>
 
                 <Box display={'flex'} minWidth={'100%'} flexDirection={'column'} gap={1.5}>
-                  <Typography>Nature of Group<span style={{ color: "red", paddingLeft: '5px' }} >*</span></Typography>
+                  <Typography variant="body2">Write Account Group Name<span style={{ color: "red", paddingLeft: '5px' }} >*</span></Typography>
                   <Grid item maxHeight={'100%'} display={'grid'} gridTemplateColumns={'0.1fr 5fr'} gap={1}>
                     <ListItemIcon
                       sx={{
@@ -337,7 +302,7 @@ export default function Home() {
                 </Box>
 
                 <Box display={'flex'} minWidth={'100%'} flexDirection={'column'} gap={1.5}>
-                  <Typography>Description<span style={{ color: "red", paddingLeft: '5px' }} >*</span></Typography>
+                  <Typography variant="body2">Write Description<span style={{ color: "red", paddingLeft: '5px' }} >*</span></Typography>
                   <Grid item maxHeight={'100%'} display={'grid'} gridTemplateColumns={'0.1fr 5fr'} gap={1}>
                     <ListItemIcon
                       sx={{
@@ -384,7 +349,7 @@ export default function Home() {
               <Button
                 type="submit"
                 variant="contained"
-                style={{ backgroundColor: '#1769aa' }}
+                style={{ backgroundColor: '#33ab9f' }}
               >
                 Create
               </Button>
@@ -393,6 +358,15 @@ export default function Home() {
         </DialogContent>
 
       </BootstrapDialog>
+      <CustomizedSnackbars
+        open={notificationOpen}
+        handleClose={(event, reason) => {
+          if (reason === 'clickaway') {
+            return;
+          }
+          setNotificationOpen(null);
+        }}
+      />
     </>
   )
 }

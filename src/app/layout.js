@@ -3,6 +3,7 @@ import Footer from '../../components/layout/Footer'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import LayoutWrapper from '../../components/layout/LayoutWrapper'
+import { GroupListContextProvider } from '../../contexts/UtilsContextUse'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,12 +20,12 @@ export default function RootLayout({ children }) {
       </Head>
       <body>
 
-        <div >
+        <GroupListContextProvider>
           <LayoutWrapper>
             {children}
           </LayoutWrapper>
+        </GroupListContextProvider>
 
-        </div>
 
 
         {/* <Footer
