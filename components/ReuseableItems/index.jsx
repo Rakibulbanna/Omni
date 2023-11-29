@@ -42,41 +42,7 @@ export const AutoCompleteWrapper = ({ minWidth = null, required = false, options
     </Grid>
   )
 }
-export const TextFieldWrapper = ({ label, name, value, type = "string", touched, errors, handleChange, handleBlur, required = false, disabled = false, ...params }) => {
-  return (
-    <Grid item container pb={1}>
-      <TextField
-        size='small'
-        sx={{
-          [`& fieldset`]: {
-            borderRadius: 0.6,
-          }
-        }}
-        id="outlined-basic"
-        label={label}
-        variant="outlined"
-        type={type}
-        error={Boolean(touched && errors)}
-        fullWidth
-        helperText={touched && errors}
-        name={name}
-        placeholder={`${name} here...`}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        value={value}
-        required={required}
-        disabled={disabled}
-        {...params}
-      />
-    </Grid>
-  );
-};
-
-
-
 export const CustomizedSnackbars = ({open,handleClose}) => {
-
-
   return (
 
     <Stack spacing={2} sx={{ width: '100%' }}>

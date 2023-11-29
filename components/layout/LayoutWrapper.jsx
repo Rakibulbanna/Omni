@@ -24,10 +24,9 @@ import { Collapse, Grid } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import GroupIcon from '@mui/icons-material/Group';
 import Link from 'next/link';
-
-import { AiOutlineLogin } from 'react-icons/ai';
 import Image from 'next/image';
 import { Fragment, useState } from 'react';
+import Footer from './Footer';
 const drawerWidth = 200;
 
 const openedMixin = (theme) => ({
@@ -59,8 +58,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
 }));
 
-const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
+const AppBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -81,6 +79,36 @@ const AppBar = styled(MuiAppBar, {
     ...(open && {
         marginLeft: drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
+
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+
+
+    }),
+}));
+const FooterBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+    zIndex: theme.zIndex.drawer + 1,
+    bottom:0,
+    top:`calc(100% - ${theme.spacing(5)})`,
+   
+    ...(!open && {
+        [theme.breakpoints.up('xs')]: {
+            width: `calc(100% - ${theme.spacing(7)})`,
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${theme.spacing(7.8)})`,
+        },
+        [theme.breakpoints.up('md')]: {
+            width: `calc(100% - ${theme.spacing(8)})`,
+        },
+    }),
+    ...(open && {
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
+        
 
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
@@ -118,6 +146,7 @@ export default function LayoutWrapper({ children }) {
     };
 
     return (
+        <>
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
 
@@ -145,7 +174,7 @@ export default function LayoutWrapper({ children }) {
             </AppBar>
 
             <Drawer variant="permanent" open={open}>
-
+                <Link href='/'>
                 {
                     open ? <Grid sx={{ display: 'flex', justifyContent: 'start', py: 2, pl: 2, backgroundColor: '#33ab9f', color: 'white' }}>
                         <Grid display={'flex'} flexDirection={'column'} gap={1.5}>
@@ -178,7 +207,7 @@ export default function LayoutWrapper({ children }) {
                             />
                         </Grid>
                 }
-
+                </Link>
 
                 <Divider />
                 <List>
@@ -217,11 +246,18 @@ export default function LayoutWrapper({ children }) {
                 </List>
 
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 2, width: '100%' }}>
+            <Box component="main" sx={{ flexGrow: 1, p: 2, width: '100%',
+            backgroundColor:'#f5f5f5'}}>
                 <DrawerHeader />
+                <Grid sx={{ minHeight: 'calc(100vh - 100px) !important' }}>
                 {children}
+                </Grid>
             </Box>
         </Box>
+        <FooterBar position="fixed" open={open} sx={{ backgroundColor: 'white',color:'black', border: '1px solid lightGrey',px:2,py:1 }}>
+            <Footer/>
+        </FooterBar>
+        </>
     );
 }
 

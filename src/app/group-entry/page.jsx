@@ -1,8 +1,8 @@
 
 'use client';
-import { Box, Card, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, ListItemIcon, Stack, TextField, ThemeProvider, Typography, createTheme, styled } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, ListItemIcon, TextField, Typography, styled } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { AutoCompleteWrapper, CustomizedSnackbars, TextAreaWrapper, TextFieldWrapper } from '../../../components/ReuseableItems';
+import { AutoCompleteWrapper, CustomizedSnackbars } from '../../../components/ReuseableItems';
 import CloseIcon from '@mui/icons-material/Close';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AddIcon from '@mui/icons-material/Add';
@@ -69,7 +69,7 @@ export default function Home() {
     e.preventDefault()
     try{
       await updatingGrouplist(e)
-      setNotificationOpen({massage:`${open} created successfully !!`,varient:'success'});
+      setNotificationOpen({massage:`${open} group created successfully !!`,varient:'success'});
       handleClose()
     }catch(err){
       setNotificationOpen('error');
@@ -93,7 +93,7 @@ export default function Home() {
         gap: 2,
         p: 2,
 
-        width: '100%'
+        width: '100%',
       }} >
 
         <Box display={'flex'} flexDirection={'column'} gap={1.5} border={'1px solid lightGray'} p={2}>
@@ -225,10 +225,7 @@ export default function Home() {
             </Grid>
           </Box>
         }
-
-
         <DialogActions
-
         >
           <Button onClick={handleAllClear}
             variant="contained"

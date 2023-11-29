@@ -1,11 +1,8 @@
 import Head from 'next/head'
 import Footer from '../../components/layout/Footer'
 import './globals.css'
-import { Inter } from 'next/font/google'
 import LayoutWrapper from '../../components/layout/LayoutWrapper'
 import { GroupListContextProvider } from '../../contexts/UtilsContextUse'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Create Next App',
@@ -26,15 +23,7 @@ export default function RootLayout({ children }) {
           </LayoutWrapper>
         </GroupListContextProvider>
 
-
-
-        {/* <Footer
-        facebook_link={''}
-        twitter_link={''}
-        google_link={''}
-        linkedin_link={''}
-        youtube_link={''}
-      /> */}
+        {/* <Footer/> */}
       </body>
     </html>
   )
