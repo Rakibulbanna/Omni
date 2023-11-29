@@ -1,5 +1,4 @@
 'use client';
-import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -26,6 +25,7 @@ import Link from 'next/link';
 
 import { AiOutlineLogin } from 'react-icons/ai';
 import Image from 'next/image';
+import { Fragment, useState } from 'react';
 const drawerWidth = 200;
 
 const openedMixin = (theme) => ({
@@ -54,7 +54,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 
@@ -66,16 +65,27 @@ const AppBar = styled(MuiAppBar, {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
-   
+    ...(!open && {
+        [theme.breakpoints.up('xs')]: {
+            width: `calc(100% - ${theme.spacing(7)})`,
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${theme.spacing(7.8)})`,
+        },
+        [theme.breakpoints.up('md')]: {
+            width: `calc(100% - ${theme.spacing(8)})`,
+        },
+    }),
     ...(open && {
         marginLeft: drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
-        
+
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
-    
+
+
     }),
 }));
 
@@ -98,7 +108,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function LayoutWrapper({ children }) {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
 
     const handleDrawerControl = () => {
@@ -109,8 +119,8 @@ export default function LayoutWrapper({ children }) {
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
 
-            <AppBar position="fixed" open={open} sx={{backgroundColor:'#33ab9f',border:'0px'}}>
-                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', border: '1px solid' }}>
+            <AppBar position="fixed" open={open} sx={{ backgroundColor: '#33ab9f', border: 0 }}>
+                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
 
                     <IconButton
                         color="inherit"
@@ -133,24 +143,42 @@ export default function LayoutWrapper({ children }) {
             </AppBar>
 
             <Drawer variant="permanent" open={open}>
-                <Grid sx={{ display: 'flex', justifyContent: 'start', py:2,pl:2,backgroundColor:'#33ab9f',color:'white' }}>
-                    <Grid display={'flex'} flexDirection={'column'} gap={1.5}>
-                        <Image src={'/dumy_teacher.png'}
-                            height={60}
-                            width={60}
-                            alt='Student photo'
-                            loading='lazy'
-                            style={{
-                                borderRadius: '50%'
-                            }}
-                        />
-                        <Typography>Omni Solution Ltd</Typography>
+
+                {
+                    open ? <Grid sx={{ display: 'flex', justifyContent: 'start', py: 2, pl: 2, backgroundColor: '#33ab9f', color: 'white' }}>
+                        <Grid display={'flex'} flexDirection={'column'} gap={1.5}>
+                            <Image src={'/dumy_teacher.png'}
+                                height={60}
+                                width={60}
+                                alt='Student photo'
+                                loading='lazy'
+                                style={{
+                                    borderRadius: '50%'
+                                }}
+                            />
+                            <Typography>Omni Solution Ltd</Typography>
+                        </Grid>
                     </Grid>
-                </Grid>
+                        :
+                        <Grid sx={{ backgroundColor: '#33ab9f', color: 'white',
+                         height:'1fr', padding: 1, }}>
+                            <img src={'/omni.jpeg'}
+                                
+                                alt='Student photo'
+                                loading='lazy'
+                                style={{
+                                    borderRadius: '50%',
+                                    maxHeight:'100%',
+                                    border:'1px solid',
+                                }}
+                            />
+                        </Grid>
+                }
+
 
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    {['Inbox', 'Starred'].map((text, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
@@ -196,18 +224,18 @@ export default function LayoutWrapper({ children }) {
 
 
 const MenuWithSubmenu = () => {
-    const [open1, setOpen1] = React.useState(false);
+    const [open, setOpen] = useState(false);
     return (
-        <React.Fragment>
-            <ListItemButton onClick={() => setOpen1(!open1)}>
+        <Fragment>
+            <ListItemButton onClick={() => setOpen(!open)}>
                 <ListItemIcon>
                     <InboxIcon />
                 </ListItemIcon>
                 <ListItemText primary="Inbox" />
-                {open1 ? <ExpandLess /> : <ExpandMore />}
+                {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
 
-            <Collapse in={open1} timeout="auto" unmountOnExit>
+            <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItemButton sx={{ pl: 2 }}>
                         <ListItemIcon>
@@ -229,7 +257,7 @@ const MenuWithSubmenu = () => {
                     </ListItemButton>
                 </List>
             </Collapse>
-        </React.Fragment>
+        </Fragment>
     );
 };
 

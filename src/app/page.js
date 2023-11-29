@@ -10,6 +10,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -304,7 +305,7 @@ export default function Home() {
 
                 <Box display={'flex'} minWidth={'100%'} flexDirection={'column'} gap={1.5}>
                   <Typography>Nature of Group<span style={{ color: "red", paddingLeft: '5px' }} >*</span></Typography>
-                  <Grid item maxHeight={'100%'} display={'grid'} gridTemplateColumns={'8% 92%'} gap={2}>
+                  <Grid item maxHeight={'100%'} display={'grid'} gridTemplateColumns={'0.1fr 5fr'} gap={1}>
                     <ListItemIcon
                       sx={{
                         display: 'flex',
@@ -337,7 +338,7 @@ export default function Home() {
 
                 <Box display={'flex'} minWidth={'100%'} flexDirection={'column'} gap={1.5}>
                   <Typography>Description<span style={{ color: "red", paddingLeft: '5px' }} >*</span></Typography>
-                  <Grid item maxHeight={'100%'} display={'grid'} gridTemplateColumns={'8% 92%'} gap={2}>
+                  <Grid item maxHeight={'100%'} display={'grid'} gridTemplateColumns={'0.1fr 5fr'} gap={1}>
                     <ListItemIcon
                       sx={{
                         display: 'flex',
